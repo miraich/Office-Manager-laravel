@@ -32,12 +32,18 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'role_id',
         'email_verified_at',
         'created_at',
         'updated_at',
         'password',
         'remember_token',
     ];
+
+    protected $appends = [
+        'role',
+    ];
+
 
     /**
      * Get the attributes that should be cast.
@@ -51,6 +57,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function commentaries(): HasMany
     {
         return $this->hasMany(Commentary::class);
@@ -64,5 +71,17 @@ class User extends Authenticatable
     public function chats(): BelongsToMany
     {
         return $this->belongsToMany(Chat::class);
+    }
+
+//    protected function RoleId(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn(string $value) => Role::find($value)->name,
+//        );
+//    }
+
+    public function getRoleAttribute(): string
+    {
+        return Role::find($this->id)->name;
     }
 }
