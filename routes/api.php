@@ -20,3 +20,7 @@ Route::middleware("auth:sanctum")->group(function () {
 Route::post('/login', [AuthController::class, "login"])->name('login');
 Route::post('/register', [AuthController::class, "register"]);
 
+Route::get('/test', function (){
+    return response()->json(['message'=>'Дима пидор']);
+});
+
