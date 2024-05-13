@@ -18,12 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->respond(function (Response $response) {
-            if ($response->getStatusCode() === 404) {
-                return $response->setContent(['message' => 'Not found']);
-            }
-            return $response;
-        });
+//        $exceptions->respond(function (Response $response) {
+//            if ($response->getStatusCode() === 404) {
+//                return $response->setContent(['message' => 'Not found']);
+//            }
+//            return $response;
+//        });
     })->create();
 
 
