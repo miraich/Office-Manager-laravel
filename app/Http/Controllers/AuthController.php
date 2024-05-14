@@ -17,11 +17,11 @@ use Psy\Util\Str;
 
 class AuthController extends Controller
 {
-    function register(RegisterRequest $request)
+    function register(Request $request)
     {
-//        if (User::find(['email' => $request->email])) {
-//            return response()->json(['message' => 'User already exists.'], 409);
-//        }
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json(['message' => 'User already exists.'], 409);
+        }
         $token = \Illuminate\Support\Str::random(64);
         $user = User::create([
             'email_verification_token' => hash('sha256', $token),

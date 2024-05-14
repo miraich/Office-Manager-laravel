@@ -15,6 +15,6 @@ class VerifyEmailController extends Controller
             $user->markEmailAsVerified();
             return response()->json(['message' => "Verified successfully"]);
         }
-        return response()->json(['message' => "Invalid verification token"]);
+        return response()->json(['message' => "Invalid verification token"],401);
     }
 }
