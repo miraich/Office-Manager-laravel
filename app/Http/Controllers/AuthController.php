@@ -17,7 +17,7 @@ use Psy\Util\Str;
 
 class AuthController extends Controller
 {
-    function register(Request $request)
+    function register(RegisterRequest $request)
     {
         if (User::where('email', $request->email)->exists()) {
             return response()->json(['message' => 'User already exists.'], 409);
