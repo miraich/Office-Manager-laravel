@@ -27,7 +27,7 @@ class AuthController extends Controller
             'email_verification_token' => hash('sha256', $token),
             'role_id' => Roles::GENERAL_DIRECTOR->value,
             'email' => $request->email,
-            'name' => $request->name,
+            'name' => $request->username,
             'password' => $request->password,
         ]);
         $user->notify(new VerificationMail($token));
