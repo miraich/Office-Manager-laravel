@@ -22,16 +22,20 @@ class AuthController extends Controller
         if (User::where('email', $request->email)->exists()) {
             return response()->json(['message' => 'User already exists.'], 409);
         }
-        $token = \Illuminate\Support\Str::random(64);
+        $email_token = \Illuminate\Support\Str::random(64);
         $user = User::create([
-            'email_verification_token' => hash('sha256', $token),
+            'email_verification_token' => hash('sha256', $email_token),
             'role_id' => Roles::GENERAL_DIRECTOR->value,
             'email' => $request->email,
             'name' => $request->username,
             'password' => $request->password,
         ]);
-        $user->notify(new VerificationMail($token));
-        return response()->json(['message' => 'Registered'], 201);
+        $user->notify(new VerificationMail($email_token));
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json([
+            'message' => 'Registered',
+            'token' => $token,
+        ], 201);
     }
 
     function login(LoginRequest $request): JsonResponse
