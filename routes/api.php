@@ -17,15 +17,11 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/task', [TaskController::class, "store"]);
     Route::post('/comment/{task}', [CommentaryController::class, "store"]);
     Route::post('/logout', [AuthController::class, "logout"])->name('logout');
+    Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail']);
 });
-
-Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail'])
-    ->middleware(['auth:sanctum']);
-
 
 Route::post('/login', [AuthController::class, "login"])->name('login');
 Route::post('/register', [AuthController::class, "register"]);
-
 
 Route::get('/test', function (Request $request) {
     echo 'adasdsad';
