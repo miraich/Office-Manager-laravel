@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(EnsureEmailVerified::class);
+//        $middleware->append(EnsureEmailVerified::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
 //        $exceptions->respond(function (Response $response) {
