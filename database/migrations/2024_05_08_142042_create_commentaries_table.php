@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('commentaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('task_id')->constrained('tasks');
             $table->string('commentary');
             $table->timestampsTz();
         });

@@ -10,12 +10,10 @@ class VerificationMail extends Notification
 {
     use Queueable;
 
-    public $token;
 
-    public function __construct(string $token)
+    public function __construct(public string $token)
     {
         $this->afterCommit();
-        $this->token = $token;
     }
 
     /**

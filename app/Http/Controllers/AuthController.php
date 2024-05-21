@@ -7,17 +7,14 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Notifications\VerificationMail;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Psy\Util\Str;
 
 class AuthController extends Controller
 {
-    function register(RegisterRequest $request)
+    function register(RegisterRequest $request): JsonResponse
     {
         if (User::where('email', $request->email)->exists()) {
             return response()->json(['message' => 'User already exists.'], 409);
@@ -44,17 +41,16 @@ class AuthController extends Controller
             $user = Auth::user();
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
-                'user' => $user,
                 'token' => $token
             ], 200);
         }
-
         return response()->json(['error' => 'Invalid credentials'], 401);
     }
 
     function logout(Request $request): Response
     {
-        $request->user()->currentAccessToken()->delete();
+//        $request->user()->currentAccessToken()->delete();
+        $request->user()->tokens()->delete();
         return response()->noContent();
     }
 }

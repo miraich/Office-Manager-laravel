@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Chat::class);
     }
 
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
 //    protected function RoleId(): Attribute
 //    {
 //        return Attribute::make(

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('subscription_id')->constrained('subscriptions');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestampsTz();
             $table->timestampTz('end_date');
 
