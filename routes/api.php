@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware("auth:sanctum")->group(function () {
     Route::get('/user', [UserController::class, "show"])->middleware(EnsureEmailVerified::class);
     Route::get('/messages', [ChatController::class, 'show']);
-    Route::get('/subscriptions', [SubscriptionController::class, 'index']);
     Route::post('/message', [MessageController::class, 'store']);
     Route::post('/task', [TaskController::class, "store"]);
     Route::post('/comment/{task}', [CommentaryController::class, "store"]);
@@ -25,6 +24,8 @@ Route::middleware("auth:sanctum")->group(function () {
 
 Route::post('/login', [AuthController::class, "login"]);
 Route::post('/register', [AuthController::class, "register"]);
+Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+
 
 Route::get('/test', function (Request $request) {
     echo 'adasdsad';
