@@ -20,14 +20,12 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/comment/{task}', [CommentaryController::class, "store"]);
     Route::post('/logout', [AuthController::class, "logout"]);
     Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail']);
+    Route::post('/order/subscription', [SubscriptionController::class, 'orderSubscription']);
+
 });
 
 Route::post('/login', [AuthController::class, "login"]);
 Route::post('/register', [AuthController::class, "register"]);
 Route::get('/subscriptions', [SubscriptionController::class, 'index']);
 
-
-Route::get('/test', function (Request $request) {
-    echo 'adasdsad';
-});
 
