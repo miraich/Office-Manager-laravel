@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\VerificationMail;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,6 +48,34 @@ class User extends Authenticatable
 
     protected $with = ['roles'];
 
+    protected $appends = ['is_subscribed', 'subscription_end_date', 'subscription_type'];
+
+    protected function subscriptionType(): Attribute
+    {
+        return new Attribute(
+            get: fn() => UserSubscription::where('user_id', $this->id)->get()->first()->subscription_id,
+        );
+    }
+
+    protected function subscriptionEndDate(): Attribute
+    {
+        return new Attribute(
+            get: fn() => UserSubscription::where('user_id', $this->id)->get()->first()->end_date,
+        );
+    }
+
+    protected function isSubscribed(): Attribute
+    {
+        return new Attribute(
+            get: fn() => UserSubscription::where('user_id', $this->id)->get()->first()->active,
+        );
+    }
+
+    public function subscription()
+    {
+        return $this->hasOne(UserSubscription::class);
+    }
+
 
     /**
      * Get the attributes that should be cast.
@@ -79,11 +108,6 @@ class User extends Authenticatable
     public function chats(): BelongsToMany
     {
         return $this->belongsToMany(Chat::class);
-    }
-
-    public function subscriptions(): HasMany
-    {
-        return $this->hasMany(Subscription::class);
     }
 
 //    protected function RoleId(): Attribute

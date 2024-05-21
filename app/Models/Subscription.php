@@ -12,6 +12,15 @@ class Subscription extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $fillable = [
+        'name', 'description', 'price',
+    ];
+
+    public function userSubscriptions()
+    {
+        return $this->hasMany(UserSubscription::class);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

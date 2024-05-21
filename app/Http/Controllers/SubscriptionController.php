@@ -23,15 +23,14 @@ class SubscriptionController extends Controller
 
         if (!isset($request->id)) return response()->json(['error' => 'no subscriptions id data'], 409);
 
-
-        if (DB::table('user_subscriptions')->find($user->id, 'user_id'))
+        if (DB::table('user_subscription')->find($user->id, 'user_id'))
             return response()->json(['error' => 'Subscription already bought'], 409);
 
 
         if ($sub->exists()) {
             switch ($sub->id) {
                 case Subscriptions::FREE->value:
-                    DB::table('user_subscriptions')->insert(
+                    DB::table('user_subscription')->insert(
                         [
                             'user_id' => $user->id,
                             'subscription_id' => $request->id,
@@ -43,7 +42,7 @@ class SubscriptionController extends Controller
                     return response()->json([], 201);
                 case Subscriptions::EXTENDED->value:
                     if (!isset($months)) return response()->json(['error' => 'no month data'], 409);
-                    DB::table('user_subscriptions')->insert(
+                    DB::table('user_subscription')->insert(
                         [
                             'user_id' => $user->id,
                             'subscription_id' => $request->id,
