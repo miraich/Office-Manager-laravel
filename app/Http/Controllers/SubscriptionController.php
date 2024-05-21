@@ -35,7 +35,7 @@ class SubscriptionController extends Controller
                             'user_id' => $user->id,
                             'subscription_id' => $request->id,
                             'active' => true,
-                            'end_date' => Carbon::now()->addMonths(1)->toDateTimeString(),
+                            'end_date' => Carbon::now()->addMonths(1)->toDateTime(),
                             'created_at' => Carbon::now()->toDateTimeString(),
                         ]
                     );
@@ -47,8 +47,8 @@ class SubscriptionController extends Controller
                             'user_id' => $user->id,
                             'subscription_id' => $request->id,
                             'active' => true,
-                            'end_date' => Carbon::now()->addMonths((int)$months)->toDateTimeString(),
-                            'created_at' => Carbon::now()->toDateTimeString(),
+                            'end_date' => Carbon::now()->addMonths((int)$months)->toDateTime(),
+                            'created_at' => Carbon::now()->toDateTime(),
                         ]
                     );
                     return response()->json([], 201);

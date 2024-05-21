@@ -10,6 +10,8 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    protected $table = 'subscriptions';
+
     protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [

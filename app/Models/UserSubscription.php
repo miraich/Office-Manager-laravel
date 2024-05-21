@@ -11,6 +11,8 @@ class UserSubscription extends Model
 
     protected $table = 'user_subscription';
 
+    protected $hidden = ['id','user_id','created_at','updated_at'];
+
     protected $fillable = [
         'user_id', 'subscription_id', 'start_date', 'end_date', 'status',
     ];

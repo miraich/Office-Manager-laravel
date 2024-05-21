@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Notifications\VerificationMail;
-use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -44,32 +40,11 @@ class User extends Authenticatable
         'updated_at',
         'password',
         'remember_token',
+        'id',
+        'email_verification_token',
     ];
 
-    protected $with = ['roles'];
-
-    protected $appends = ['is_subscribed', 'subscription_end_date', 'subscription_type'];
-
-    protected function subscriptionType(): Attribute
-    {
-        return new Attribute(
-            get: fn() => UserSubscription::where('user_id', $this->id)->get()->first()->subscription_id,
-        );
-    }
-
-    protected function subscriptionEndDate(): Attribute
-    {
-        return new Attribute(
-            get: fn() => UserSubscription::where('user_id', $this->id)->get()->first()->end_date,
-        );
-    }
-
-    protected function isSubscribed(): Attribute
-    {
-        return new Attribute(
-            get: fn() => UserSubscription::where('user_id', $this->id)->get()->first()->active,
-        );
-    }
+    protected $with = ['role','subscription'];
 
     public function subscription()
     {
@@ -100,7 +75,7 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    public function roles(): HasOne
+    public function role(): HasOne
     {
         return $this->hasOne(Role::class, 'id', 'role_id');
     }

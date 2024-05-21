@@ -10,6 +10,8 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['id'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
