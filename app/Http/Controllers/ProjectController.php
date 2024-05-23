@@ -37,8 +37,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->file('formData'));
-        $path = $request->file('formData')->store('documentation');
+        $path = $request->file('file')->store('documentation');
         Project::create([
             'status_id' => Statuses::NOT_STARTED->value,
             'owner_id' => $request->user()->id,
