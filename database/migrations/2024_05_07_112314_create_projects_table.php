@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained('users');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('status_id')->default(\App\Enums\Statuses::NOT_STARTED)
+                ->constrained('statuses')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->integer('budget');

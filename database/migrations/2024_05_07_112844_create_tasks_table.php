@@ -15,7 +15,8 @@ return new class extends Migration {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('status_id')->default(Statuses::INACTIVE->value)->constrained('statuses');
+            $table->foreignId('status_id')->default(Statuses::NOT_STARTED->value)->constrained('statuses');
+            $table->foreignId('project_id')->constrained('projects');
             $table->timestampTz('end_date');
             $table->timestampsTz();
         });

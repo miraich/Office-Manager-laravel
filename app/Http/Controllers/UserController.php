@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function show(Request $request)
+    public function currentUser(Request $request)
     {
         $user = $request->user();
 

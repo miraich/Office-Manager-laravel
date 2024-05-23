@@ -3,8 +3,8 @@
 namespace App\Enums;
 enum Statuses: int
 {
-    case INACTIVE = 1;
+    case NOT_STARTED = 1;
     case IN_PROGRESS = 2;
-    case DONE = 3;
+    case FINISHED = 3;
 
 }

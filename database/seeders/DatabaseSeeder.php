@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\Role;
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -55,5 +57,9 @@ class DatabaseSeeder extends Seeder
                 'name' => 'done'
             ],
         ]);
+        $user = User::factory()
+            ->has(Project::factory()->count(3),'projects')
+            ->create();
+
     }
 }

@@ -18,13 +18,9 @@ class Subscription extends Model
         'name', 'description', 'price',
     ];
 
-    public function userSubscriptions()
+    public function user()
     {
         return $this->hasMany(UserSubscription::class);
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }
