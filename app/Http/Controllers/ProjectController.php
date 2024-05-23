@@ -38,6 +38,8 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $p = $request->formData;
+
+        return response()->json($p);
         $path = $p->file('file')->store('documentation');
 
         Project::create([
