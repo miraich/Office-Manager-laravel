@@ -30,7 +30,8 @@ class Project extends Model
         'id',
         'owner_id',
         'budget',
-        'end_date'
+        'end_date',
+        'tasks'
     ];
 
     public function user(): BelongsTo
