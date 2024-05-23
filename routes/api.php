@@ -18,6 +18,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/user', [UserController::class, "currentUser"]);
     Route::get('/projects', [ProjectController::class, "index"]);
     Route::get('/project/{project}', [ProjectController::class, "show"]);
+    Route::get('/projects/add', [ProjectController::class, "store"]);
     Route::get('/messages', [ChatController::class, 'show']);
     Route::post('/message', [MessageController::class, 'store']);
     Route::post('/task', [TaskController::class, "store"]);
