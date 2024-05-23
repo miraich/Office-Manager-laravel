@@ -37,21 +37,21 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $path = $request->file('file')->store('documentation');
+        if ($request->file('file')) {
+            $path = $request->file('file')->store('documentation');
+        }
 
-//        $json = json_decode($request->fields, true);
-
-        Project::create([
+        $proj = Project::create([
             'status_id' => Statuses::NOT_STARTED->value,
             'owner_id' => $request->user()->id,
             'name' => $request->title,
             'description' => $request->projectDescription,
             'budget' => $request->budget,
             'end_date' => $request->date,
-            'documentation' => $path,
+            'documentation' => $path ?? null,
         ]);
-        Storage::download($path);
-        return response('', 201);
+//        Storage::download($path);
+        return response($proj, 201);
     }
 
     public function show(Project $project)
