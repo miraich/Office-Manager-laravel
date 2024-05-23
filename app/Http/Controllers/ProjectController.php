@@ -41,6 +41,7 @@ class ProjectController extends Controller
             'owner_id' => $request->user()->id,
             'name' => $request->title,
             'description' =>$request->projectDescription,
+            'budget' => $request->budget,
             'end_date' => $request->date,
         ]);
         return response()->json([], 201);
