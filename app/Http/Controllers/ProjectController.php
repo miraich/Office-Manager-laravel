@@ -37,19 +37,16 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $p = $request->formData;
-
-        return response()->json($p);
-        $path = $p->file('file')->store('documentation');
+        $path = $request->file('file')->store('documentation');
 
         Project::create([
             'status_id' => Statuses::NOT_STARTED->value,
             'owner_id' => $request->user()->id,
-            'name' => $request->title,
-            'description' => $request->projectDescription,
-            'budget' => $request->budget,
-            'end_date' => $request->date,
-            'documentation' => $request->$path,
+            'name' => $request->fields->title,
+            'description' => $request->fields->projectDescription,
+            'budget' => $request->fields->budget,
+            'end_date' => $request->fields->date,
+            'documentation' => $path,
         ]);
         Storage::download($path);
         return response('', 201);
