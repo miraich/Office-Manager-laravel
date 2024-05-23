@@ -39,15 +39,15 @@ class ProjectController extends Controller
     {
         $path = $request->file('file')->store('documentation');
 
-        $json = json_decode($request->fields, true);
+//        $json = json_decode($request->fields, true);
 
         Project::create([
             'status_id' => Statuses::NOT_STARTED->value,
             'owner_id' => $request->user()->id,
-            'name' => $json['title'],
-            'description' => $json['projectDescription'],
-            'budget' => $json['budget'],
-            'end_date' => $json['date'],
+            'name' => $request->title,
+            'description' => $request->projectDescription,
+            'budget' => $request->budget,
+            'end_date' => $request->date,
             'documentation' => $path,
         ]);
         Storage::download($path);
