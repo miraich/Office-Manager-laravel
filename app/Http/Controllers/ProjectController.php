@@ -37,7 +37,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         Project::create([
-            'status_id' => Statuses::NOT_STARTED,
+            'status_id' => Statuses::NOT_STARTED->value,
             'owner_id' => $request->user()->id,
             'name' => $request->title,
             'description' =>$request->projectDescription,
