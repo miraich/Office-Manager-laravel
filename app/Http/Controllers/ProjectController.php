@@ -39,7 +39,7 @@ class ProjectController extends Controller
     {
         $path = $request->file('file')->store('documentation');
 
-        $json = $request->fields->json()->all();
+        $json = json_decode($request->fields, true);
 
         Project::create([
             'status_id' => Statuses::NOT_STARTED->value,
