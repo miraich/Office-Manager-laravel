@@ -36,6 +36,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         Project::create([
+            'owner_id' => $request->user()->id,
             'name' => $request->title,
             'description' =>$request->projectDescription,
             'end_date' => $request->date,
