@@ -27,7 +27,6 @@ class Project extends Model
         'documentation',
         'created_at',
         'updated_at',
-        'id',
         'owner_id',
         'budget',
         'end_date',
