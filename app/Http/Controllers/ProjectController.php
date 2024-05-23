@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Statuses;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -14,7 +15,7 @@ class ProjectController extends Controller
 
         if ($user->projects()->exists() || $user->groups()->exists()) {
 
-            $user_projects = $user->projects;
+            $userProjects = $user->projects;
 
             $groupUserIds = $user->groups->flatMap(function ($group) { //оч полезный метод.........
                 return $group->users->pluck('id');
@@ -22,7 +23,7 @@ class ProjectController extends Controller
 
             $groupProjects = Project::whereIn('owner_id', $groupUserIds)->get();
 
-            $allProjects = $user_projects->concat($groupProjects);
+            $allProjects = $userProjects->concat($groupProjects);
 
             $allProjects->flatMap(function ($project) {
                 $project->status_id = $project->setCurrentStatus();
@@ -31,11 +32,12 @@ class ProjectController extends Controller
 
             return response()->json($allProjects, 200);
         }
-        return response()->json([], 204);
+        return response()->noContent();
     }
 
     public function store(Request $request)
     {
+        $path = $request->file('formData')->store('documentation');
         Project::create([
             'status_id' => Statuses::NOT_STARTED->value,
             'owner_id' => $request->user()->id,
@@ -43,12 +45,21 @@ class ProjectController extends Controller
             'description' =>$request->projectDescription,
             'budget' => $request->budget,
             'end_date' => $request->date,
+            'documentation' => $request->$path,
         ]);
-        return response()->json([], 201);
+        Storage::download($path);
+        return response('',201);
     }
 
     public function show(Project $project)
     {
-        return response()->json($project, 200);
+        return response()->json($project->makeVisible(['budget','end_date','tasks']), 200);
+    }
+
+    public function destroy(Project $project)
+    {
+        $project->delete();
+
+        return response()->noContent();
     }
 }

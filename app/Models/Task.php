@@ -16,6 +16,7 @@ class Task extends Model
         'end_date'
     ];
 
+    protected $hidden = ['project_id','created_at','updated_at'];
 
 
     public function commentaries() //хз пока

@@ -18,10 +18,12 @@ class TaskController extends Controller
             'name' => $request->name,
             'end_date' => $request->end_date,
         ]);
+        return response('', 201);
     }
 
     public function show()
     {
+
     }
 
 }

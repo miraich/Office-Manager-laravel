@@ -37,7 +37,7 @@ class SubscriptionController extends Controller
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
 
-                    return response()->json([], 201);
+                    return response('', 201);
                 case Subscriptions::EXTENDED->value:
                     if (!isset($months)) return response()->json(['error' => 'no month data'], 409);
                     $user_sub = $user->subscription()->create([
@@ -47,7 +47,7 @@ class SubscriptionController extends Controller
                         'created_at' => Carbon::now()->toDateTime(),
                     ]);
 
-                    return response()->json(['message'=>'Subscription successfully bought'], 201);
+                    return response()->json(['message' => 'Subscription successfully bought'], 201);
             }
         }
     }

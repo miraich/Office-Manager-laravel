@@ -24,7 +24,6 @@ class Project extends Model
         'documentation'
     ];
     protected $hidden = [
-        'documentation',
         'created_at',
         'updated_at',
         'owner_id',
@@ -32,6 +31,8 @@ class Project extends Model
         'end_date',
         'tasks'
     ];
+
+    protected $with = ['tasks'];
 
     public function user(): BelongsTo
     {

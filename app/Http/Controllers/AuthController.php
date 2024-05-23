@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
         if (User::where('email', $request->email)->exists()) {
             return response()->json(['message' => 'User already exists.'], 409);
         }
-        $email_token = \Illuminate\Support\Str::random(64);
+        $email_token = Str::random(64);
         $user = User::create([
             'email_verification_token' => hash('sha256', $email_token),
 //            'role_id' => Roles::GENERAL_DIRECTOR->value,
