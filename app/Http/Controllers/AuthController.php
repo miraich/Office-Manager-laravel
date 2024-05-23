@@ -22,7 +22,7 @@ class AuthController extends Controller
         $email_token = \Illuminate\Support\Str::random(64);
         $user = User::create([
             'email_verification_token' => hash('sha256', $email_token),
-            'role_id' => Roles::GENERAL_DIRECTOR->value,
+//            'role_id' => Roles::GENERAL_DIRECTOR->value,
             'email' => $request->email,
             'name' => $request->username,
             'password' => $request->password,
