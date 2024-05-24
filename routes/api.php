@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware("auth:sanctum")->group(function () {
 //        ->middleware(EnsureEmailVerified::class);
     Route::get('/user', [UserController::class, "currentUser"]);
+
     Route::get('/projects', [ProjectController::class, "index"]);
     Route::get('/project/{project}', [ProjectController::class, "show"]);
     Route::post('/projects/add', [ProjectController::class, "store"]);
+    Route::get('/project/{project}/download', [ProjectController::class, 'download']);
+    Route::post('/project/{project}/add/task', [TaskController::class, 'store']);
+    Route::put('/project/{project}/task/{task}', [TaskController::class, 'update']);
+
     Route::get('/messages', [ChatController::class, 'show']);
     Route::post('/message', [MessageController::class, 'store']);
-    Route::post('/task', [TaskController::class, "store"]);
     Route::post('/comment/{task}', [CommentaryController::class, "store"]);
     Route::post('/logout', [AuthController::class, "logout"]);
     Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail']);

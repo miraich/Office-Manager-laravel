@@ -15,8 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
     )
+    ->withBroadcasting(
+        __DIR__ . '/../routes/channels.php',
+        ['prefix' => 'api', 'middleware' => ['auth:sanctum']],
+    )
     ->withMiddleware(function (Middleware $middleware) {
-//        $middleware->append(EnsureEmailVerified::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
 //        $exceptions->respond(function (Response $response) {

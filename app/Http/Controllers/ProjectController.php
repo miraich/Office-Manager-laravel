@@ -37,6 +37,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
+        $path = null;
         if ($request->file('file')) {
             $path = $request->file('file')->store('documentation');
         }
@@ -48,10 +49,9 @@ class ProjectController extends Controller
             'description' => $request->projectDescription,
             'budget' => $request->budget,
             'end_date' => $request->date,
-            'documentation' => $path ?? null,
+            'documentation' => $path,
         ]);
-//        Storage::download($path);
-        return response($proj, 201);
+        return response('', 201);
     }
 
     public function show(Project $project)
@@ -64,5 +64,15 @@ class ProjectController extends Controller
         $project->delete();
 
         return response()->noContent();
+    }
+
+    public function download(Project $project)
+    {
+        $path = $project->documentation;
+
+        if (!empty($path) && Storage::disk('local')->exists($path)) {
+            return Storage::download($path);
+        }
+        return response()->json(['error' => 'File not found.'], 404);
     }
 }

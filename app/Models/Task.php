@@ -13,7 +13,8 @@ class Task extends Model
     protected $fillable = [
         'name',
         'status_id',
-        'end_date'
+        'end_date',
+        'description'
     ];
 
     protected $hidden = ['project_id','created_at','updated_at'];
