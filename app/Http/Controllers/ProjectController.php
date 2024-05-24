@@ -72,13 +72,13 @@ class ProjectController extends Controller
     {
         $path = $project->documentation;
 
-        return response()->download(storage_path() . "/app/" . $path,'file');
+//        return response()->download(storage_path() . "/app/" . $path,'file');
 
 //        dd(Storage::download($path));
 
-//        if (!empty($path) && Storage::disk('local')->exists($path)) {
-//            return Storage::download($path);
-//        }
-//        return response()->json(['error' => 'File not found.'], 404);
+        if (!empty($path) && Storage::disk('local')->exists($path)) {
+            return Storage::download($path);
+        }
+        return response()->json(['error' => 'File not found.'], 404);
     }
 }
