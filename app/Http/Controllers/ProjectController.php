@@ -72,7 +72,9 @@ class ProjectController extends Controller
     {
         $path = $project->documentation;
 
-        return response()->download(storage_path() . "/app/" . $path,'file');
+        return response()->download(storage_path() . "/app/" . $path,'file',[
+            'Content-Type' => 'application/octet-stream',
+        ]);
 
 //        dd(Storage::download($path));
 
