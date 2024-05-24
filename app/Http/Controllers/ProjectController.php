@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Statuses;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -56,6 +57,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
+        Gate::authorize('view', $project);
         return response()->json($project->makeVisible(['budget', 'end_date', 'tasks']), 200);
     }
 
@@ -69,10 +71,13 @@ class ProjectController extends Controller
     public function download(Project $project)
     {
         $path = $project->documentation;
-
-        if (!empty($path) && Storage::disk('local')->exists($path)) {
-            return Storage::download($path);
-        }
-        return response()->json(['error' => 'File not found.'], 404);
+        response()->download(storage_path() . "/app/" . $path,'file');
+        return ;
+//        if (!empty($path) && Storage::disk('local')->exists($path)) {
+////            return Storage::download($path);
+////            Storage::disk('local')->get($path);
+//            response()->download(storage_path() . "/app/" . $path);
+//        }
+//        return response()->json(['error' => 'File not found.'], 404);
     }
 }
