@@ -10,26 +10,32 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
-    function index(Request $request)
+    function index()
     {
-        $user = $request->user();
+        $user = auth()->user();
 
         if ($user->projects()->exists() || $user->groups()->exists()) {
 
             $userProjects = $user->projects;
 
-            $groupUserIds = $user->groups->flatMap(function ($group) { //оч полезный метод.........
-                return $group->users->pluck('id');
-            })->unique()->diff([$user->id]);
-
-            $groupProjects = Project::whereIn('owner_id', $groupUserIds)->get();
-
-            $allProjects = $userProjects->concat($groupProjects);
-
-            $allProjects->flatMap(function ($project) {
-                $project->status_id = $project->setCurrentStatus();
-                $project->save();
+            $groupProjects = $user->groups->flatMap(function ($group) {
+                return Project::where('owner_id', $group->owner_id)->get();
             });
+
+            $allProjects = $userProjects->merge($groupProjects);
+
+//            $groupUserIds = $user->groups->flatMap(function ($group) { //оч полезный метод.........
+//                return $group->users->pluck('id');
+//            })->unique()->diff([$user->id]);
+//
+//            $groupProjects = Project::whereIn('owner_id', $groupUserIds)->get();
+
+//            $allProjects = $userProjects->concat($groupProjects);
+
+//            $allProjects->flatMap(function ($project) {
+//                $project->status_id = $project->setCurrentStatus(); //доделать для задач
+//                $project->save();
+//            });
 
             return response()->json($allProjects, 200);
         }
@@ -71,10 +77,6 @@ class ProjectController extends Controller
     public function download(Project $project)
     {
         $path = $project->documentation;
-
-//        return response()->download(storage_path() . "/app/" . $path,'file',[
-//            'Content-Type' => 'application/octet-stream',
-//        ]);
 
         if (!empty($path) && Storage::disk('local')->exists($path)) {
             return Storage::download($path);

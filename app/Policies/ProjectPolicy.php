@@ -21,13 +21,15 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        return $user->id === $project->owner_id;
-//        $groupUserIds = $user->groups->flatMap(function ($group) {
-//            return $group->users->pluck('id');
-//        })->unique()->diff([$user->id]);
-//        if ($groupUserIds->contains($user->id)) {
-//            return true;
-//        }
+        if ($user->id === $project->owner_id) {
+            return true;
+        }
+        foreach ($user->groups as $group) {
+            if ($group->owner_id === $project->owner_id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

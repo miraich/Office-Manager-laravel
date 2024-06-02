@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
+//            $table->string('invitation_code');
+//            $table->timestampTz('invitation_confirmed_at')->nullable();
             $table->timestampsTz();
         });
     }

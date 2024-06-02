@@ -2227,16 +2227,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.3.1",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8ff64b92c1b1ec84fcde9f8bb9ff2ca34cb8a77a"
+                "reference": "8eab8983c83c30e0bacbef8d311e3f3b8172727f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8ff64b92c1b1ec84fcde9f8bb9ff2ca34cb8a77a",
-                "reference": "8ff64b92c1b1ec84fcde9f8bb9ff2ca34cb8a77a",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8eab8983c83c30e0bacbef8d311e3f3b8172727f",
+                "reference": "8eab8983c83c30e0bacbef8d311e3f3b8172727f",
                 "shasum": ""
             },
             "require": {
@@ -2329,7 +2329,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-01T06:54:22+00:00"
+            "time": "2024-05-24T14:26:34+00:00"
         },
         {
             "name": "nette/schema",
@@ -3892,16 +3892,16 @@
         },
         {
             "name": "react/promise",
-            "version": "v3.1.0",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "e563d55d1641de1dea9f5e84f3cccc66d2bfe02c"
+                "reference": "8a164643313c71354582dc850b42b33fa12a4b63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/e563d55d1641de1dea9f5e84f3cccc66d2bfe02c",
-                "reference": "e563d55d1641de1dea9f5e84f3cccc66d2bfe02c",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/8a164643313c71354582dc850b42b33fa12a4b63",
+                "reference": "8a164643313c71354582dc850b42b33fa12a4b63",
                 "shasum": ""
             },
             "require": {
@@ -3953,7 +3953,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/promise/issues",
-                "source": "https://github.com/reactphp/promise/tree/v3.1.0"
+                "source": "https://github.com/reactphp/promise/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -3961,7 +3961,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-11-16T16:21:57+00:00"
+            "time": "2024-05-24T10:39:05+00:00"
         },
         {
             "name": "react/promise-timer",
@@ -6554,16 +6554,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "8.0.1",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "161fbeb588f367e35e70a86841406ff6f0810b14"
+                "reference": "547e6ceca9a1491a645065f344ddb592a3456298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/161fbeb588f367e35e70a86841406ff6f0810b14",
-                "reference": "161fbeb588f367e35e70a86841406ff6f0810b14",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/547e6ceca9a1491a645065f344ddb592a3456298",
+                "reference": "547e6ceca9a1491a645065f344ddb592a3456298",
                 "shasum": ""
             },
             "require": {
@@ -6601,9 +6601,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twilio/twilio-php/issues",
-                "source": "https://github.com/twilio/twilio-php/tree/8.0.1"
+                "source": "https://github.com/twilio/twilio-php/tree/8.1.0"
             },
-            "time": "2024-04-18T11:15:50+00:00"
+            "time": "2024-05-24T11:10:19+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

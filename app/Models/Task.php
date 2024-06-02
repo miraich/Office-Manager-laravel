@@ -20,7 +20,7 @@ class Task extends Model
     protected $hidden = ['project_id','created_at','updated_at'];
 
 
-    public function commentaries() //хз пока
+    public function commentaries()
     {
         return $this->belongsToMany(Commentary::class,
             'commentary_task', 'task_id', 'commentary_id')->withTimestamps();

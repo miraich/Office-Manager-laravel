@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\Subscriptions;
 use App\Models\Subscription;
-use App\Models\UserSubscription;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +36,7 @@ class SubscriptionController extends Controller
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
 
-                    return response('', 201);
+                    return response()->json(['message' => 'Subscription successfully bought'], 201);
                 case Subscriptions::EXTENDED->value:
                     if (!isset($months)) return response()->json(['error' => 'no month data'], 409);
                     $user_sub = $user->subscription()->create([
@@ -50,6 +49,7 @@ class SubscriptionController extends Controller
                     return response()->json(['message' => 'Subscription successfully bought'], 201);
             }
         }
+        return response()->json(['error' => 'subscription not found'], 404);
     }
 
     public function index(Request $request)

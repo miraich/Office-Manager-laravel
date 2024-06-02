@@ -60,6 +60,6 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()
             ->has(Project::factory()->count(3),'projects')
             ->create();
-
+        $user = User::factory()->create();
     }
 }
