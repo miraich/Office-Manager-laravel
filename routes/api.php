@@ -24,7 +24,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/project/{project}/add/task', [TaskController::class, 'store']);
     Route::put('/project/{project}/task/{task}', [TaskController::class, 'update']);
 
-    Route::get('/groups/confirm/{code}', [GroupController::class, "confirmUser"]);
+    Route::post('/groups/confirm/{code}', [GroupController::class, "confirmUser"]);
     Route::get('/groups', [GroupController::class, "index"]);
     Route::post('/groups/add', [GroupController::class, "store"]);
     Route::post('/groups/invite', [GroupController::class, "invite"]);

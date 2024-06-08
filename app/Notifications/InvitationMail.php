@@ -39,7 +39,7 @@ class InvitationMail extends Notification
         return (new MailMessage)
             ->greeting('Здравствуйте!')
             ->line("Вы были приглашены в команду " . $this->group->name . " пользователем " . $this->sender->name)
-            ->action('Принять приглашение', url("api/groups/confirm/$this->invitation_code"))
+            ->action('Принять приглашение', "http://31.128.36.9/" . $this->invitation_code)
             ->line('Спасибо, что выбрали нас!');
     }
 
