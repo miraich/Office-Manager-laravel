@@ -45,8 +45,9 @@ class GroupController extends Controller
         if ($group->exists()) {
             Notification::route('mail', $request->email)->notify(new InvitationMail($group->invitation_code,
                 $request->user(), $group));
+            return response('user invited', 200);
         }
-        return response('', 200);
+        return response('group not found', 404);
     }
 
     public function confirmUser(Request $request)
