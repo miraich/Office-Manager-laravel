@@ -33,7 +33,7 @@ class GroupController extends Controller
         $code = Str::random(10);
         Group::create([
             'owner_id' => $request->user()->id,
-            'name' => $request->name,
+            'name' => $request->groupName,
             'invitation_code' => $code,
         ]);
         return response('created', 201);
