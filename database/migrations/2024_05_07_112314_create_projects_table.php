@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('status_id')->default(Statuses::NOT_STARTED)
+            $table->foreignId('status_id')->default(Statuses::NOT_STARTED->value)
                 ->constrained('statuses')->onDelete('cascade');
             $table->string('name');
             $table->text('description');

@@ -18,7 +18,7 @@ class GroupController extends Controller
 
         $groupsUserInvited = $user->groups->filter(function ($group) use ($user) {
             return $group->owner_id != $user->id;
-        });
+        })->values();
 
         return response()->json([
             'groupsCreatedByUser' => $groupsCreatedByUser,
@@ -37,7 +37,7 @@ class GroupController extends Controller
         return response('created', 201);
     }
 
-    public function invite(Request $request)        
+    public function invite(Request $request)
     {
         $group = Group::find($request->group_id);
         if ($group->exists()) {

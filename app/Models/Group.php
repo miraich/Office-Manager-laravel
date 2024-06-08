@@ -17,7 +17,9 @@ class Group extends Model
 
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'pivot',
+        'invitation_code'
     ];
 
     public function users(): BelongsToMany
