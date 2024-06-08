@@ -28,7 +28,7 @@ class GroupController extends Controller
 
     public function store(Request $request)
     {
-        $code = Str::random(60);
+        $code = Str::random(10);
         Group::create([
             'owner_id' => $request->user()->id,
             'name' => $request->name,
@@ -47,9 +47,9 @@ class GroupController extends Controller
         return response('', 200);
     }
 
-    public function confirmUser(Request $request, string $code)
+    public function confirmUser(Request $request)
     {
-        $group = Group::where('invitation_code', $code);
+        $group = Group::where('invitation_code', $request->link);
         if ($group->exists()) {
             if (auth()->user()->groups->contains($group->first()->id)) {
                 return response('User already in group', 400);
