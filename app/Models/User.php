@@ -41,7 +41,6 @@ class User extends Authenticatable
         'remember_token',
         'id',
         'email_verification_token',
-
     ];
 
     protected $with = ['role','subscription'];

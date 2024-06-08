@@ -12,7 +12,8 @@ class Group extends Model
 
     protected $fillable = [
         'owner_id',
-        'name'
+        'name',
+        'invitation_code'
     ];
 
     protected $hidden = [
