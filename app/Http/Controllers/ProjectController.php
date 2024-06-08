@@ -22,22 +22,10 @@ class ProjectController extends Controller
                 return Project::where('owner_id', $group->owner_id)->get();
             });
 
-            $allProjects = $userProjects->merge($groupProjects);
-
-//            $groupUserIds = $user->groups->flatMap(function ($group) { //оч полезный метод.........
-//                return $group->users->pluck('id');
-//            })->unique()->diff([$user->id]);
-//
-//            $groupProjects = Project::whereIn('owner_id', $groupUserIds)->get();
-
-//            $allProjects = $userProjects->concat($groupProjects);
-
-//            $allProjects->flatMap(function ($project) {
-//                $project->status_id = $project->setCurrentStatus(); //доделать для задач
-//                $project->save();
-//            });
-
-            return response()->json($allProjects, 200);
+            return response()->json([
+                'userProjects' => $userProjects,
+                'groupProjects' => $groupProjects,
+            ], 200);
         }
         return response()->noContent();
     }

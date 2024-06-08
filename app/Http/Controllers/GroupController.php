@@ -20,8 +20,6 @@ class GroupController extends Controller
             return $group->owner_id != $user->id;
         })->values();
 
-
-
         return response()->json([
             'groupsCreatedByUser' => $groupsCreatedByUser,
             'groupsUserInvited' => $groupsUserInvited,
