@@ -100,6 +100,8 @@ class GroupController extends Controller
         return response('created', 201);
     }
 
+
+
     public function invite(Request $request)
     {
         $group = Group::find($request->group_id);

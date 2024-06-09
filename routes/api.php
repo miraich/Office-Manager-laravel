@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function () {
     Route::get('/user', [UserController::class, "currentUser"]);
 
+    Route::get('/groups/extended/price', [SubscriptionController::class, "getPlacePrice"]);
+
     Route::get('/projects', [ProjectController::class, "index"]);
     Route::get('/project/{project}', [ProjectController::class, "show"]);
     Route::delete('/project/{project}', [ProjectController::class, "destroy"]);

@@ -56,4 +56,9 @@ class SubscriptionController extends Controller
     {
         return response()->json(Subscription::all());
     }
+
+    public function getPlacePrice(Request $request)
+    {
+        return response()->json(['price' => 100]);
+    }
 }
