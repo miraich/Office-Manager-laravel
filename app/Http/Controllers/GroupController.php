@@ -17,7 +17,6 @@ class GroupController extends Controller
 
         $groupsCreatedByUser = $user->groupsCreated;
 
-//
 //        $groupsCreatedByUser = $groupsCreatedByUser->map(function ($group) use ($user) {
 //            $creator = $group->users->firstWhere('id', $user->id);
 //
@@ -31,7 +30,7 @@ class GroupController extends Controller
 //            }
 //            return $group;
 //        });
-//
+
 //        $groupsCreatedByUser->forget($user->id);
 
         $groupsUserInvited = $user->groups->filter(function ($group) use ($user) {

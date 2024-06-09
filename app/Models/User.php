@@ -42,7 +42,6 @@ class User extends Authenticatable
         'email_verification_token',
         'pivot',
         'role',
-        'subscription'
     ];
 
     protected $with = ['subscription'];
