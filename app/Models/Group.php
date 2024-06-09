@@ -23,14 +23,13 @@ class Group extends Model
         'updated_at',
         'pivot',
         'invitation_code',
-        'owner_id'
     ];
 
     protected $with = ['users'];
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,'user_group');
+        return $this->belongsToMany(User::class, 'user_group');
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Subscriptions;
 use App\Models\Group;
+use App\Models\User;
 use App\Notifications\InvitationMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -14,27 +15,57 @@ class GroupController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $groupsCreatedByUser = $user->groupsCreated->map(function ($group) use ($user) {
+            $groupArray = $group->toArray();
+            $groupArray['creator'] = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ];
 
-        $groupsCreatedByUser = $user->groupsCreated;
+            // Получаем информацию о пользователях, за исключением создателя
+            $users = $group->users->reject(function ($groupUser) use ($user) {
+                return $groupUser->id === $user->id;
+            })->map(function ($groupUser) {
+                return [
+                    'id' => $groupUser->id,
+                    'name' => $groupUser->name,
+                    'email' => $groupUser->email,
+                ];
+            })->toArray();
 
-//        $groupsCreatedByUser = $groupsCreatedByUser->map(function ($group) use ($user) {
-//            $creator = $group->users->firstWhere('id', $user->id);
-//
-//            if ($creator) {
-//                // Используем reject для исключения создателя
-//                $group->users = $group->users->except($creator->id);
-//
-//                $group->creator = $creator;
-//            } else {
-//                $group->creator = null;
-//            }
-//            return $group;
-//        });
+            // Добавляем информацию о пользователях в группу
+            $groupArray['users'] = $users;
 
-//        $groupsCreatedByUser->forget($user->id);
+            return $groupArray;
+        });
 
-        $groupsUserInvited = $user->groups->filter(function ($group) use ($user) {
-            return $group->owner_id != $user->id;
+        $groupsUserInvited = $user->groups->reject(function ($group) use ($user) {
+            return $group->owner_id === $user->id;
+        })->map(function ($group) {
+            $creator = User::find($group->owner_id);
+            $groupArray = $group->toArray();
+            $groupArray['creator'] = [
+                'id' => $creator->id,
+                'name' => $creator->name,
+                'email' => $creator->email,
+            ];
+
+            // Получаем информацию о пользователях, за исключением создателя
+            $users = $group->users->reject(function ($groupUser) use ($creator) {
+                return $groupUser->id === $creator->id;
+            })->map(function ($groupUser) {
+                return [
+                    'id' => $groupUser->id,
+                    'name' => $groupUser->name,
+                    'email' => $groupUser->email,
+                ];
+            })->values()->toArray();
+
+            // Добавляем информацию о пользователях в группу
+            $groupArray['users'] = $users;
+
+            return $groupArray;
         })->values();
 
         return response()->json([

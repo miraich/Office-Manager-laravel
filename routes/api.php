@@ -13,7 +13,7 @@ use App\Http\Controllers\VerifyEmailController;
 use App\Http\Middleware\EnsureEmailVerified;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware("auth:sanctum")->group(function () {
+Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function () {
     Route::get('/user', [UserController::class, "currentUser"]);
 
     Route::get('/projects', [ProjectController::class, "index"]);
@@ -34,7 +34,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/comment/{task}', [CommentaryController::class, "store"]);
     Route::post('/logout', [AuthController::class, "logout"]);
     Route::post('/order/subscription', [SubscriptionController::class, 'orderSubscription']);
-})->middleware(EnsureEmailVerified::class);
+});
 
 Route::middleware("auth:sanctum")->group(function () {
     Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail']);
