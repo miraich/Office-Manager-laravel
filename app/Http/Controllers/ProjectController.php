@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\Statuses;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -17,10 +19,20 @@ class ProjectController extends Controller
         if ($user->projects()->exists() || $user->groups()->exists()) {
 
             $userProjects = $user->projects;
+            $groupIds = $user->groups->pluck('id');
 
-            $groupProjects = $user->groups->flatMap(function ($group) {
-                return Project::where('owner_id', $group->owner_id)->get();
+            // Получаем проекты групп, где user_id отличается от owner_id пользователя
+            $groupProjects = Project::whereIn('owner_id', function ($query) use ($groupIds) {
+                $query->select('owner_id')
+                    ->from('groups')
+                    ->whereIn('id', $groupIds);
+            })->where('owner_id', '!=', $user->id)->get();
+
+            // Преобразуем коллекцию Eloquent-моделей в формат, содержащий только нужные поля
+            $groupProjects = $groupProjects->map(function ($project) {
+                return $project->only(['id', 'status_id', 'name', 'description', 'documentation']);
             });
+
 
             return response()->json([
                 'userProjects' => $userProjects,
