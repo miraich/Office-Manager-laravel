@@ -79,22 +79,24 @@ class GroupController extends Controller
         $code = Str::random(10);
         switch ($request->type_id) {
             case Subscriptions::FREE->value:
-                Group::create([
+                $group = Group::create([
                     'owner_id' => $request->user()->id,
                     'name' => $request->groupName,
                     'invitation_code' => $code,
                     'type_id' => $request->type_id,
                     'max_people' => 5
                 ]);
+                $request->user()->groups()->attach($group);
                 break;
             case Subscriptions::EXTENDED->value:
-                Group::create([
+                $group = Group::create([
                     'owner_id' => $request->user()->id,
                     'name' => $request->groupName,
                     'invitation_code' => $code,
                     'type_id' => $request->type_id,
                     'max_people' => $request->people_amount
                 ]);
+                $request->user()->groups()->attach($group);
         }
 
         return response('created', 201);
