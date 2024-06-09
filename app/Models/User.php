@@ -41,6 +41,7 @@ class User extends Authenticatable
         'remember_token',
         'id',
         'email_verification_token',
+        'pivot'
     ];
 
     protected $with = ['role','subscription'];

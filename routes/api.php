@@ -10,10 +10,10 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
+use App\Http\Middleware\EnsureEmailVerified;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")->group(function () {
-//        ->middleware(EnsureEmailVerified::class);
     Route::get('/user', [UserController::class, "currentUser"]);
 
     Route::get('/projects', [ProjectController::class, "index"]);
@@ -33,8 +33,11 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/message', [MessageController::class, 'store']);
     Route::post('/comment/{task}', [CommentaryController::class, "store"]);
     Route::post('/logout', [AuthController::class, "logout"]);
-    Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail']);
     Route::post('/order/subscription', [SubscriptionController::class, 'orderSubscription']);
+})->middleware(EnsureEmailVerified::class);
+
+Route::middleware("auth:sanctum")->group(function () {
+    Route::post('/email/verify', [VerifyEmailController::class, 'verifyEmail']);
 });
 
 Route::post('/login', [AuthController::class, "login"]);

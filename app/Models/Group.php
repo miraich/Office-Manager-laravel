@@ -20,8 +20,11 @@ class Group extends Model
         'created_at',
         'updated_at',
         'pivot',
-        'invitation_code'
+        'invitation_code',
+        'owner_id'
     ];
+
+    protected $with = ['users'];
 
     public function users(): BelongsToMany
     {
