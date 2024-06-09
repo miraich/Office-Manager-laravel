@@ -39,12 +39,13 @@ class User extends Authenticatable
         'updated_at',
         'password',
         'remember_token',
-        'id',
         'email_verification_token',
-        'pivot'
+        'pivot',
+        'role',
+        'subscription'
     ];
 
-    protected $with = ['role','subscription'];
+    protected $with = ['subscription'];
 
     public function subscription()
     {

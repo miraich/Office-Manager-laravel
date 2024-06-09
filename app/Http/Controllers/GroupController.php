@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Subscriptions;
 use App\Models\Group;
 use App\Notifications\InvitationMail;
 use Illuminate\Http\Request;
@@ -16,6 +17,23 @@ class GroupController extends Controller
 
         $groupsCreatedByUser = $user->groupsCreated;
 
+//
+//        $groupsCreatedByUser = $groupsCreatedByUser->map(function ($group) use ($user) {
+//            $creator = $group->users->firstWhere('id', $user->id);
+//
+//            if ($creator) {
+//                // Используем reject для исключения создателя
+//                $group->users = $group->users->except($creator->id);
+//
+//                $group->creator = $creator;
+//            } else {
+//                $group->creator = null;
+//            }
+//            return $group;
+//        });
+//
+//        $groupsCreatedByUser->forget($user->id);
+
         $groupsUserInvited = $user->groups->filter(function ($group) use ($user) {
             return $group->owner_id != $user->id;
         })->values();
@@ -29,11 +47,26 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $code = Str::random(10);
-        Group::create([
-            'owner_id' => $request->user()->id,
-            'name' => $request->groupName,
-            'invitation_code' => $code,
-        ]);
+        switch ($request->type_id) {
+            case Subscriptions::FREE->value:
+                Group::create([
+                    'owner_id' => $request->user()->id,
+                    'name' => $request->groupName,
+                    'invitation_code' => $code,
+                    'type_id' => $request->type_id,
+                    'max_people' => 5
+                ]);
+                break;
+            case Subscriptions::EXTENDED->value:
+                Group::create([
+                    'owner_id' => $request->user()->id,
+                    'name' => $request->groupName,
+                    'invitation_code' => $code,
+                    'type_id' => $request->type_id,
+                    'max_people' => $request->people_amount
+                ]);
+        }
+
         return response('created', 201);
     }
 

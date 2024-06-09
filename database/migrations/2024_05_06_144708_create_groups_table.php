@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('type_id')->constrained('group_types')->onDelete('cascade');
+            $table->foreignId('type_id')->constrained('subscriptions')->onDelete('cascade');
             $table->string('name');
             $table->integer('max_people');
             $table->string('invitation_code');
