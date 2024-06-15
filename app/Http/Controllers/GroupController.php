@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Subscriptions;
 use App\Http\Requests\GroupFromRequest;
+use App\Http\Requests\GroupInviteFormRequest;
 use App\Models\Group;
 use App\Models\User;
 use App\Notifications\InvitationMail;
@@ -108,7 +109,7 @@ class GroupController extends Controller
     }
 
 
-    public function invite(Request $request)
+    public function invite(GroupInviteFormRequest $request)
     {
         $group = Group::find($request->group_id);
         if ($group->exists()) {
