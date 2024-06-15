@@ -57,8 +57,12 @@ class SubscriptionController extends Controller
         return response()->json(Subscription::all());
     }
 
-    public function getPlacePrice(Request $request)
+    public function getCreateGroupInfo(Request $request)
     {
-        return response()->json(['price' => 100]);
+
+        return response()->json([
+            'price' => 100,
+            'projects' => $request->user()->projects->makeHidden(['status_id', 'description', 'documentation']),
+        ]);
     }
 }

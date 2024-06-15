@@ -17,7 +17,7 @@ Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function 
     Route::get('/user', [UserController::class, "currentUser"]);
     Route::delete('/group/{group}/user/{user}', [UserController::class, "deleteFromGroup"]);
 
-    Route::get('/groups/extended/price', [SubscriptionController::class, "getPlacePrice"]);
+    Route::get('/groups/create/info', [SubscriptionController::class, "getCreateGroupInfo"]);
 
     Route::get('/projects', [ProjectController::class, "index"]);
     Route::get('/project/{project}', [ProjectController::class, "show"]);
