@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function () {
     Route::get('/user', [UserController::class, "currentUser"]);
-    Route::delete('/group/{group}/user/{user}', [UserController::class, "deleteFromGroup"]);
 
-    Route::get('/groups/create/info', [SubscriptionController::class, "getCreateGroupInfo"]);
+    Route::get('/groups/create/info', [GroupController::class, "getCreateGroupInfo"]);
 
     Route::get('/projects', [ProjectController::class, "index"]);
     Route::get('/project/{project}', [ProjectController::class, "show"]);
@@ -32,6 +31,7 @@ Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function 
     Route::post('/groups/add', [GroupController::class, "store"]);
     Route::post('/groups/invite', [GroupController::class, "invite"]);
     Route::delete('/groups/delete/{group}', [GroupController::class, "destroy"]);
+    Route::delete('/group/{group}/user/{user}', [GroupController::class, "deleteUserFromGroup"]);
 
     Route::get('/messages', [ChatController::class, 'show']);
     Route::post('/message', [MessageController::class, 'store']);

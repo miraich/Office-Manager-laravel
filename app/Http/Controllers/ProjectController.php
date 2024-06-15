@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Statuses;
+use App\Http\Requests\ProjectFormRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class ProjectController extends Controller
         return response()->noContent();
     }
 
-    public function store(Request $request)
+    public function store(ProjectFormRequest $request)
     {
         $path = null;
         if ($request->file('file')) {

@@ -8,6 +8,8 @@ use App\Models\Group;
 use App\Models\User;
 use App\Notifications\InvitationMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
@@ -106,7 +108,6 @@ class GroupController extends Controller
     }
 
 
-
     public function invite(Request $request)
     {
         $group = Group::find($request->group_id);
@@ -131,9 +132,31 @@ class GroupController extends Controller
         return response('Group does not exist', 404);
     }
 
+    public function getCreateGroupInfo(Request $request)
+    {
+        return response()->json([
+            'price' => 100,
+            'projects' => $request->user()->projects->makeHidden(['status_id', 'description', 'documentation']),
+        ]);
+    }
+
     public function destroy(Request $request, Group $group)
     {
+        Gate::authorize('delete', $group);
         $group->delete();
         return response('', 204);
+    }
+
+    public function deleteUserFromGroup(Group $group, User $user)
+    {
+        Gate::authorize('deleteUserFromGroup', $group);
+        if ($group->exists() && $user->exists()) {
+            DB::table('user_group')
+                ->where('user_id', $user->id)
+                ->where('group_id', $group->id)
+                ->delete();
+            return response('deleted');
+        }
+        return response('user or group not found', 404);
     }
 }

@@ -23,7 +23,6 @@ class AuthController extends Controller
         $email_token = Str::random(64);
         $user = User::create([
             'email_verification_token' => hash('sha256', $email_token),
-//            'role_id' => Roles::GENERAL_DIRECTOR->value,
             'email' => $request->email,
             'name' => $request->username,
             'password' => $request->password,
@@ -50,7 +49,6 @@ class AuthController extends Controller
 
     function logout(Request $request): Response
     {
-//        $request->user()->currentAccessToken()->delete();
         $request->user()->tokens()->delete();
         return response()->noContent();
     }

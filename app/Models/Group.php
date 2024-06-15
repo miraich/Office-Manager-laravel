@@ -15,7 +15,8 @@ class Group extends Model
         'name',
         'invitation_code',
         'type_id',
-        'max_people'
+        'max_people',
+        'project_id'
     ];
 
     protected $hidden = [
