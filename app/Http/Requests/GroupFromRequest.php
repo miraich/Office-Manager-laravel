@@ -22,7 +22,7 @@ class GroupFromRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => 'required|int',
+            'project_id' => 'required|int|exists:projects,id',
             'groupName' => 'required|string',
             'type_id' => 'required|int',
             'people_amount' => 'sometimes|int',
