@@ -16,7 +16,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('status_id')->default(Statuses::NOT_STARTED->value)
-                ->constrained('statuses')->onDelete('cascade');
+                ->constrained('statuses')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->string('name');
             $table->text('description');
             $table->integer('budget');

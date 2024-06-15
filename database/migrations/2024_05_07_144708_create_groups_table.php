@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('type_id')->constrained('subscriptions')->onDelete('cascade');
+            $table->foreignId('owner_id')->constrained('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('type_id')->constrained('subscriptions')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('project_id')->unique()->constrained('projects')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->string('name');
             $table->integer('max_people');
             $table->string('invitation_code');

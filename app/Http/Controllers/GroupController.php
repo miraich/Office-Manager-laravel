@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Subscriptions;
+use App\Http\Requests\GroupFromRequest;
 use App\Models\Group;
 use App\Models\User;
 use App\Notifications\InvitationMail;
@@ -32,13 +33,13 @@ class GroupController extends Controller
                     'name' => $groupUser->name,
                     'email' => $groupUser->email,
                 ];
-            })->toArray();
+            })->values()->toArray();
 
             // Добавляем информацию о пользователях в группу
             $groupArray['users'] = $users;
 
             return $groupArray;
-        });
+        })->values();
 
         $groupsUserInvited = $user->groups->reject(function ($group) use ($user) {
             return $group->owner_id === $user->id;
@@ -74,13 +75,14 @@ class GroupController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(GroupFromRequest $request)
     {
         $code = Str::random(10);
         switch ($request->type_id) {
             case Subscriptions::FREE->value:
                 $group = Group::create([
                     'owner_id' => $request->user()->id,
+                    'project_id' => $request->project_id,
                     'name' => $request->groupName,
                     'invitation_code' => $code,
                     'type_id' => $request->type_id,
@@ -91,6 +93,7 @@ class GroupController extends Controller
             case Subscriptions::EXTENDED->value:
                 $group = Group::create([
                     'owner_id' => $request->user()->id,
+                    'project_id' => $request->project_id,
                     'name' => $request->groupName,
                     'invitation_code' => $code,
                     'type_id' => $request->type_id,
@@ -126,5 +129,11 @@ class GroupController extends Controller
             return response('Invitation confirmed', 200);
         }
         return response('Group does not exist', 404);
+    }
+
+    public function destroy(Request $request, Group $group)
+    {
+        $group->delete();
+        return response('', 204);
     }
 }
