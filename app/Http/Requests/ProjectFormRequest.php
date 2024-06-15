@@ -26,7 +26,7 @@ class ProjectFormRequest extends FormRequest
             'projectDescription' => 'required|string',
             'budget' => 'required|int',
             'date' => 'required|date',
-            'file' => 'file',
+//            'file' => 'file',
         ];
     }
 }
