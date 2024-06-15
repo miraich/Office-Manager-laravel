@@ -22,7 +22,7 @@ class VerifyEmailFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email_verification_token' => 'required|string',
         ];
     }
 }

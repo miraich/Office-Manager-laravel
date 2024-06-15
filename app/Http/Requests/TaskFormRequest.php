@@ -22,7 +22,9 @@ class TaskFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'taskDescription' => 'required|string',
+            'end_date' => 'required|date',
         ];
     }
 }

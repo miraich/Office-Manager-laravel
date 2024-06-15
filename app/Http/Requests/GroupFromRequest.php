@@ -24,7 +24,7 @@ class GroupFromRequest extends FormRequest
         return [
             'project_id' => 'required|int|exists:projects,id',
             'groupName' => 'required|string',
-            'type_id' => 'required|int',
+            'type_id' => 'required|int|exists:subscriptions,id',
             'people_amount' => 'sometimes|int',
         ];
     }

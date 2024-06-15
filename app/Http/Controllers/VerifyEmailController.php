@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VerifyEmailFormRequest;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 class VerifyEmailController extends Controller
 {
-    public function verifyEmail(Request $request)
+    public function verifyEmail(VerifyEmailFormRequest $request)
     {
         $user = $request->user();
         $token = $user->email_verification_token;

@@ -134,9 +134,12 @@ class GroupController extends Controller
 
     public function getCreateGroupInfo(Request $request)
     {
+        $linkedProjects = $request->user()->groupsCreated->pluck('project_id');
+
         return response()->json([
             'price' => 100,
-            'projects' => $request->user()->projects->makeHidden(['status_id', 'description', 'documentation']),
+            'projects' => $request->user()->projects->whereNotInStrict('id', $linkedProjects)->values()
+                ->makeHidden(['status_id', 'description', 'documentation']),
         ]);
     }
 

@@ -22,7 +22,8 @@ class SubscriptionFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => 'required|integer|exists:subscriptions,id',
+            'month' => 'sometimes|integer',
         ];
     }
 }
