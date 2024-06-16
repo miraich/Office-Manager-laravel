@@ -19,7 +19,7 @@ class GroupController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $groupsCreatedByUser = $user->groupsCreated->map(function ($group) use ($user) {
+        $groupsCreatedByUser = $user->groupsCreated->makeHidden('users')->map(function ($group) use ($user) {
             $groupArray = $group->toArray();
             $groupArray['creator'] = [
                 'id' => $user->id,
@@ -27,24 +27,24 @@ class GroupController extends Controller
                 'email' => $user->email,
             ];
 
-            // Получаем информацию о пользователях, за исключением создателя
-            $users = $group->users->reject(function ($groupUser) use ($user) {
-                return $groupUser->id === $user->id;
-            })->map(function ($groupUser) {
-                return [
-                    'id' => $groupUser->id,
-                    'name' => $groupUser->name,
-                    'email' => $groupUser->email,
-                ];
-            })->values()->toArray();
-
-            // Добавляем информацию о пользователях в группу
-            $groupArray['users'] = $users;
+//            // Получаем информацию о пользователях, за исключением создателя
+//            $users = $group->users->reject(function ($groupUser) use ($user) {
+//                return $groupUser->id === $user->id;
+//            })->map(function ($groupUser) {
+//                return [
+//                    'id' => $groupUser->id,
+//                    'name' => $groupUser->name,
+//                    'email' => $groupUser->email,
+//                ];
+//            })->values()->toArray();
+//
+//            // Добавляем информацию о пользователях в группу
+//            $groupArray['users'] = $users;
 
             return $groupArray;
         })->values();
 
-        $groupsUserInvited = $user->groups->reject(function ($group) use ($user) {
+        $groupsUserInvited = $user->groups->makeHidden('users')->reject(function ($group) use ($user) {
             return $group->owner_id === $user->id;
         })->map(function ($group) {
             $creator = User::find($group->owner_id);
@@ -55,19 +55,19 @@ class GroupController extends Controller
                 'email' => $creator->email,
             ];
 
-            // Получаем информацию о пользователях, за исключением создателя
-            $users = $group->users->reject(function ($groupUser) use ($creator) {
-                return $groupUser->id === $creator->id;
-            })->map(function ($groupUser) {
-                return [
-                    'id' => $groupUser->id,
-                    'name' => $groupUser->name,
-                    'email' => $groupUser->email,
-                ];
-            })->values()->toArray();
-
-            // Добавляем информацию о пользователях в группу
-            $groupArray['users'] = $users;
+//            // Получаем информацию о пользователях, за исключением создателя
+//            $users = $group->users->reject(function ($groupUser) use ($creator) {
+//                return $groupUser->id === $creator->id;
+//            })->map(function ($groupUser) {
+//                return [
+//                    'id' => $groupUser->id,
+//                    'name' => $groupUser->name,
+//                    'email' => $groupUser->email,
+//                ];
+//            })->values()->toArray();
+//
+//            // Добавляем информацию о пользователях в группу
+//            $groupArray['users'] = $users;
 
             return $groupArray;
         })->values();
@@ -76,6 +76,19 @@ class GroupController extends Controller
             'groupsCreatedByUser' => $groupsCreatedByUser,
             'groupsUserInvited' => $groupsUserInvited,
         ], 200);
+    }
+
+    public function show(Request $request, Group $group)
+    {
+        $creator = User::find($group->owner_id);
+        return response()->json([
+            'id' => $group->id,
+            'name' => $group->name,
+            'max_people' => $group->max_people,
+            'type_id' => $group->type_id,
+            'creator' => $creator->makeHidden(['subscription']),
+            'users' => $group->users->except($creator->id)->makeHidden(['subscription'])
+        ]);
     }
 
     public function store(GroupFromRequest $request)
@@ -148,19 +161,16 @@ class GroupController extends Controller
     {
         Gate::authorize('delete', $group);
         $group->delete();
-        return response('', 204);
+        return response('deleted', 204);
     }
 
     public function deleteUserFromGroup(Group $group, User $user)
     {
         Gate::authorize('deleteUserFromGroup', $group);
-        if ($group->exists() && $user->exists()) {
-            DB::table('user_group')
-                ->where('user_id', $user->id)
-                ->where('group_id', $group->id)
-                ->delete();
-            return response('deleted');
-        }
-        return response('user or group not found', 404);
+        DB::table('user_group')
+            ->where('user_id', $user->id)
+            ->where('group_id', $group->id)
+            ->delete();
+        return response('deleted', 204);
     }
 }

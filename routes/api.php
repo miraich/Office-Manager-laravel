@@ -28,6 +28,7 @@ Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function 
 
     Route::post('/groups/confirm/', [GroupController::class, "confirmUser"]);
     Route::get('/groups', [GroupController::class, "index"]);
+    Route::get('/groups/{group}', [GroupController::class, "show"]);
     Route::post('/groups/add', [GroupController::class, "store"]);
     Route::post('/groups/invite', [GroupController::class, "invite"]);
     Route::delete('/groups/delete/{group}', [GroupController::class, "destroy"]);
