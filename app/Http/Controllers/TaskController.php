@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Statuses;
+use App\Http\Requests\UpdateTaskFormRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class TaskController extends Controller
         return response('', 201);
     }
 
-    public function update(Request $request, Project $project, Task $task)
+    public function update(UpdateTaskFormRequest $request, Project $project, Task $task)
     {
         switch ($request->status_id) {
             case Statuses::NOT_STARTED->value:
@@ -43,7 +44,7 @@ class TaskController extends Controller
                 $project->save();
                 return response('', 204);
         }
-        return response('', 400);
+        return response('bad request', 400);
     }
 
     public function destroy(Project $project)

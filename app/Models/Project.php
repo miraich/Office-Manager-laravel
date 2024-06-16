@@ -54,6 +54,8 @@ class Project extends Model
 
     public function setCurrentStatus()
     {
+        $this->load('tasks');
+
         if ($this->tasks()->exists()) {
 
             $statuses = $this->tasks->pluck('status_id');
