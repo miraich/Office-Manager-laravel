@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Statuses;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,15 @@ class Project extends Model
     ];
 
     protected $with = ['tasks'];
+
+    protected $appends = ['is_invited'];
+
+    protected function isInvited(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->owner_id !== auth()->id() ? $is_invited = true : $is_invited = false,
+        );
+    }
 
     public function user(): BelongsTo
     {
