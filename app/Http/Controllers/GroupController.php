@@ -26,7 +26,7 @@ class GroupController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
             ];
-
+            $groupArray['is_invited'] = false;
 //            // Получаем информацию о пользователях, за исключением создателя
 //            $users = $group->users->reject(function ($groupUser) use ($user) {
 //                return $groupUser->id === $user->id;
@@ -54,6 +54,8 @@ class GroupController extends Controller
                 'name' => $creator->name,
                 'email' => $creator->email,
             ];
+
+            $groupArray['is_invited'] = true;
 
 //            // Получаем информацию о пользователях, за исключением создателя
 //            $users = $group->users->reject(function ($groupUser) use ($creator) {
