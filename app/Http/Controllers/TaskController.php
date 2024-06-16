@@ -29,20 +29,21 @@ class TaskController extends Controller
                 $task->save();
                 $project->status_id = $project->setCurrentStatus();
                 $project->save();
-                break;
+                return response('', 204);
             case Statuses::IN_PROGRESS->value:
                 $task->status_id = Statuses::IN_PROGRESS->value;
                 $task->save();
                 $project->status_id = $project->setCurrentStatus();
                 $project->save();
-                break;
+                return response('', 204);
             case Statuses::FINISHED->value:
                 $task->status_id = Statuses::FINISHED->value;
                 $task->save();
                 $project->status_id = $project->setCurrentStatus();
                 $project->save();
+                return response('', 204);
         }
-        return response('', 200);
+        return response('', 400);
     }
 
     public function destroy(Project $project)
