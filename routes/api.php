@@ -24,7 +24,7 @@ Route::middleware(["auth:sanctum", EnsureEmailVerified::class])->group(function 
     Route::post('/projects/add', [ProjectController::class, "store"]);
     Route::get('/project/{project}/download', [ProjectController::class, 'download']);
     Route::post('/project/{project}/add/task', [TaskController::class, 'store']);
-    Route::put('/project/{project}/task/{task}', [TaskController::class, 'update']);
+    Route::patch('/project/{project}/task/{task}', [TaskController::class, 'update']);
 
     Route::post('/groups/confirm/', [GroupController::class, "confirmUser"]);
     Route::get('/groups', [GroupController::class, "index"]);
