@@ -20,7 +20,7 @@ class AuthController extends Controller
         if (User::where('email', $request->email)->exists()) {
             return response()->json(['message' => 'User already exists.'], 409);
         }
-        $email_token = Str::random(64);
+        $email_token = Str::random(5);
         $user = User::create([
             'email_verification_token' => hash('sha256', $email_token),
             'email' => $request->email,
